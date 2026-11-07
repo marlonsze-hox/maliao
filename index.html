@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#77d8ff">
-  <meta name="description" content="�ƶ��ʲһ������ԭ�������ԾС��Ϸ���ռ����ǣ�����ʷ��ķ�����ŵ�ɽ����">
-  <title>�ƶ��ʲ� �� ��Ծð��</title>
+  <meta name="description" content="云朵邮差：一款轻快的原创横版跳跃小游戏。收集信封，跳过史莱姆，送信到山顶！">
+  <title>云朵邮差 · 跳跃冒险</title>
   <style>
     :root{color-scheme:light;--ink:#19334b;--muted:#66839a;--coral:#ff776c;--yellow:#ffd166;--mint:#43c59e;--panel:#fffdf4}
     *{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(180deg,#8ce0ff 0%,#d6f5ff 54%,#fff3cd 100%);color:var(--ink);font-family:ui-rounded,"Segoe UI",system-ui,-apple-system,"Microsoft YaHei",sans-serif;display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden}
@@ -16,13 +16,13 @@
 </head>
 <body>
   <main class="wrap">
-    <header class="top"><div class="brand"><div class="badge">??</div><div><h1>�ƶ��ʲ�</h1><p>����ʷ��ķ���ռ����ǣ������͵�ɽ����</p></div></div><div class="top-actions"><button class="pill" id="restartTop">���¿�ʼ ?</button><button class="pill sound" id="soundBtn" aria-label="�л�����">??</button></div></header>
-    <section class="game-shell" aria-label="�ƶ��ʲ���Ϸ">
-      <div class="hud"><div class="stats"><div class="stat">? <b id="score">000</b></div><div class="stat">?? <b id="mail">0 / 5</b></div><div class="stat">?? <b id="lives">3</b></div></div><div class="level-label">��һվ �� �糵ɽ��</div></div>
-      <div class="stage"><canvas id="game" width="960" height="540" aria-label="�����Ծ��Ϸ����"></canvas><div class="overlay" id="overlay"><div class="card"><div class="emoji" id="cardEmoji">??</div><h2 id="cardTitle">׼����������</h2><p id="cardText">�ܹ��ݵء�����������ʷ��ķ������ 5 ���ž����ҵ�ɽ������Ͳ��</p><button class="primary" id="startBtn">��ʼð��</button></div></div></div>
-      <div class="hint"><span>�ռ�������ŷ⣬�ȱ�ʷ��ķ��</span><span class="keycaps"><span class="key">��</span><span class="key">��</span> �ƶ� <span class="key">�ո�</span> ��Ծ</span></div>
-      <div class="touch"><button id="leftBtn" aria-label="����">?</button><button class="jump" id="jumpBtn" aria-label="��Ծ">��Ծ</button><button id="rightBtn" aria-label="����">?</button></div>
-    </section><div class="footer">С��ʾ���ȵ�ʷ��ķͷ��Ҳ��һ���ѺõĴ��к� ??</div>
+    <header class="top"><div class="brand"><div class="badge">✉️</div><div><h1>云朵邮差</h1><p>跳过史莱姆，收集星星，把信送到山顶！</p></div></div><div class="top-actions"><button class="pill" id="restartTop">重新开始 ↻</button><button class="pill sound" id="soundBtn" aria-label="切换声音">🔊</button></div></header>
+    <section class="game-shell" aria-label="云朵邮差游戏">
+      <div class="hud"><div class="stats"><div class="stat">⭐ <b id="score">000</b></div><div class="stat">💌 <b id="mail">0 / 5</b></div><div class="stat">💛 <b id="lives">3</b></div></div><div class="level-label">第一站 · 风车山谷</div></div>
+      <div class="stage"><canvas id="game" width="960" height="540" aria-label="横版跳跃游戏画面"></canvas><div class="overlay" id="overlay"><div class="card"><div class="emoji" id="cardEmoji">📬</div><h2 id="cardTitle">准备出发了吗？</h2><p id="cardText">跑过草地、跳过黏糊糊的史莱姆，集齐 5 封信就能找到山顶的邮筒。</p><button class="primary" id="startBtn">开始冒险</button></div></div></div>
+      <div class="hint"><span>收集发光的信封，踩扁史莱姆！</span><span class="keycaps"><span class="key">←</span><span class="key">→</span> 移动 <span class="key">空格</span> 跳跃</span></div>
+      <div class="touch"><button id="leftBtn" aria-label="向左">◀</button><button class="jump" id="jumpBtn" aria-label="跳跃">跳跃</button><button id="rightBtn" aria-label="向右">▶</button></div>
+    </section><div class="footer">小提示：踩到史莱姆头上也算一种友好的打招呼 🐌</div>
   </main>
 <script>
 (()=>{'use strict';
@@ -32,7 +32,7 @@ const worldW=3100,groundY=452,gravity=.58;
 const platforms=[{x:0,y:groundY,w:620,h:100},{x:720,y:groundY,w:570,h:100},{x:1400,y:groundY,w:540,h:100},{x:2050,y:groundY,w:570,h:100},{x:2730,y:groundY,w:480,h:100},{x:465,y:365,w:110,h:18},{x:865,y:350,w:125,h:18},{x:1110,y:390,w:105,h:18},{x:1550,y:360,w:125,h:18},{x:1800,y:320,w:110,h:18},{x:2170,y:375,w:125,h:18},{x:2400,y:335,w:115,h:18},{x:2810,y:370,w:115,h:18}];
 const mailboxes=[{x:520,y:325},{x:940,y:310},{x:1610,y:320},{x:1850,y:280},{x:2450,y:295}];
 let player,enemies,stars,particles;
-function reset(){score=0;lives=3;mail=0;camera=0;player={x:70,y:groundY-42,vx:0,vy:0,w:30,h:40,grounded:false,face:1,inv:0};enemies=[{x:390,y:groundY-26,vx:1.1,alive:true,min:320,max:560},{x:980,y:groundY-26,vx:1.25,alive:true,min:790,max:1220},{x:1690,y:groundY-26,vx:1.15,alive:true,min:1450,max:1900},{x:2290,y:groundY-26,vx:1.3,alive:true,min:2110,max:2530},{x:2820,y:groundY-26,vx:1.2,alive:true,min:2750,max:3030}];stars=[];for(let i=0;i<75;i++)stars.push({x:(i*137+45)%worldW,y:210+(i*71)%125,r:2+(i%3),phase:i*.7});particles=[];hud()}
+function reset(){score=0;lives=3;mail=0;camera=0;mailboxes.forEach(m=>m.taken=false);player={x:70,y:groundY-42,vx:0,vy:0,w:30,h:40,grounded:false,face:1,inv:0};enemies=[{x:390,y:groundY-26,vx:1.1,alive:true,min:320,max:560},{x:980,y:groundY-26,vx:1.25,alive:true,min:790,max:1220},{x:1690,y:groundY-26,vx:1.15,alive:true,min:1450,max:1900},{x:2290,y:groundY-26,vx:1.3,alive:true,min:2110,max:2530},{x:2820,y:groundY-26,vx:1.2,alive:true,min:2750,max:3030}];stars=[];for(let i=0;i<75;i++)stars.push({x:(i*137+45)%worldW,y:210+(i*71)%125,r:2+(i%3),phase:i*.7});particles=[];hud()}
 function hud(){scoreEl.textContent=String(score).padStart(3,'0');mailEl.textContent=mail+' / 5';livesEl.textContent=lives}
 function beep(f=660,d=.09){if(!sound)return;try{audio=audio||new(window.AudioContext||window.webkitAudioContext)();const o=audio.createOscillator(),g=audio.createGain();o.frequency.value=f;o.type='sine';g.gain.setValueAtTime(.065,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+d);o.connect(g);g.connect(audio.destination);o.start();o.stop(audio.currentTime+d)}catch(_){}}
 function rect(x,y,w,h,r,color){ctx.fillStyle=color;ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill()}
@@ -61,16 +61,16 @@ function update(dt){if(state!=='playing')return;tick+=dt;const p=player,speed=4.
   if(p.inv>0)p.inv-=dt;if(p.y>H+20){loseLife()}
   for(const e of enemies){if(!e.alive)continue;e.x+=e.vx*dt/16.67;if(e.x<e.min||e.x>e.max)e.vx*=-1;const eb={x:e.x-17,y:e.y+3,w:34,h:23};if(overlap({x:p.x,y:p.y,w:p.w,h:p.h},eb)){if(p.vy>1&&p.y+p.h<e.y+17){e.alive=false;p.vy=-9;score+=100;hud();beep(520,.12);burst(e.x,e.y,'#fff2a4')}else if(p.inv<=0)loseLife()}}
   for(const m of mailboxes)if(!m.taken&&Math.abs((p.x+p.w/2)-m.x)<27&&Math.abs((p.y+p.h/2)-(m.y+15))<30){m.taken=true;mail++;score+=250;hud();beep(880,.14);burst(m.x,m.y,'#ffdb70')}
-  camera=Math.max(0,Math.min(worldW-W,p.x-W*.36));if(p.x>2950&&mail>=5){state='won';showCard('??','���ųɹ���','����Ŷ�ƽ���͵���������ɽ����������ʲ','����һ��')}
+  camera=Math.max(0,Math.min(worldW-W,p.x-W*.36));if(p.x>2950&&mail>=5){state='won';showCard('🏆','送信成功！','五封信都平安送到啦！你是山谷里最棒的邮差。','再玩一次')}
   for(const q of particles){q.x+=q.vx;q.y+=q.vy;q.vy+=.12;q.life--}particles=particles.filter(q=>q.life>0)
 }
-function loseLife(){lives--;hud();beep(180,.22);if(lives<=0){state='over';showCard('??','��ѽ��ˤ��һ��','���ģ��ʲ��������һ�Σ�','����һ��')}else{player.x=Math.max(40,player.x-100);player.y=groundY-42;player.vy=0;player.inv=1200}}
+function loseLife(){lives--;hud();beep(180,.22);if(lives<=0){state='over';showCard('💫','哎呀，摔了一跤','别担心，邮差可以再试一次！','再试一次')}else{player.x=Math.max(40,player.x-100);player.y=groundY-42;player.vy=0;player.inv=1200}}
 function burst(x,y,color){for(let i=0;i<12;i++)particles.push({x,y,vx:(Math.random()-.5)*5,vy:(Math.random()-.9)*5,life:28,color})}
 function showCard(emoji,title,text,button){document.getElementById('cardEmoji').textContent=emoji;document.getElementById('cardTitle').textContent=title;document.getElementById('cardText').textContent=text;document.getElementById('startBtn').textContent=button;overlay.hidden=false}
 function draw(){drawWorld();for(const q of particles){ctx.globalAlpha=Math.max(0,q.life/28);ctx.fillStyle=q.color;ctx.fillRect(q.x-camera,q.y,5,5)}ctx.globalAlpha=1}
 function loop(t){const dt=Math.min(35,t-last||16);last=t;update(dt);draw();requestAnimationFrame(loop)}
 function start(){if(state==='ready'||state==='over'||state==='won'){reset()}state='playing';overlay.hidden=true;beep(540,.08)}
-document.getElementById('startBtn').addEventListener('click',start);document.getElementById('restartTop').addEventListener('click',()=>{reset();state='playing';overlay.hidden=true});document.getElementById('soundBtn').addEventListener('click',e=>{sound=!sound;e.currentTarget.textContent=sound?'??':'??'});
+document.getElementById('startBtn').addEventListener('click',start);document.getElementById('restartTop').addEventListener('click',()=>{reset();state='playing';overlay.hidden=true});document.getElementById('soundBtn').addEventListener('click',e=>{sound=!sound;e.currentTarget.textContent=sound?'🔊':'🔇'});
 window.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','ArrowUp',' ','a','d','w'].includes(e.key))e.preventDefault();if(e.key==='ArrowLeft'||e.key.toLowerCase()==='a')keys.left=true;if(e.key==='ArrowRight'||e.key.toLowerCase()==='d')keys.right=true;if((e.key===' '||e.key==='ArrowUp'||e.key.toLowerCase()==='w')&&state==='playing'&&player.grounded){player.vy=-11.3;player.grounded=false;beep(420,.07)}if(e.key==='Enter'&&state!=='playing')start()});window.addEventListener('keyup',e=>{if(e.key==='ArrowLeft'||e.key.toLowerCase()==='a')keys.left=false;if(e.key==='ArrowRight'||e.key.toLowerCase()==='d')keys.right=false});
 function hold(id,key){const el=document.getElementById(id),down=e=>{e.preventDefault();keys[key]=true},up=e=>{e.preventDefault();keys[key]=false};el.addEventListener('pointerdown',down);['pointerup','pointercancel','pointerleave'].forEach(n=>el.addEventListener(n,up))}hold('leftBtn','left');hold('rightBtn','right');document.getElementById('jumpBtn').addEventListener('pointerdown',e=>{e.preventDefault();if(state==='playing'&&player.grounded){player.vy=-11.3;player.grounded=false;beep(420,.07)}});
 reset();requestAnimationFrame(loop)
@@ -78,4 +78,3 @@ reset();requestAnimationFrame(loop)
 </script>
 </body>
 </html>
-
